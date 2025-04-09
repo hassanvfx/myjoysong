@@ -3,10 +3,10 @@
 <head>
   <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <title>JOY & SONG</title>
+  <title>Joy & Song</title>
   <style>
     * { box-sizing: border-box; }
-    body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; }
+    body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; scroll-behavior: smooth; }
     .container { display: flex; flex-direction: column; min-height: 100vh; }
     @media(min-width: 768px) { .container { flex-direction: row; } }
     nav { background: #f0f0f0; padding: 1rem; min-width: 220px; display: flex; flex-direction: column; gap: 1rem; }
@@ -23,9 +23,9 @@
 <body>
   <div class='container'>
     <nav id='menu'>
-      <button class='logo-btn' disabled>🎶 JOY & SONG</button>
+      <button class='logo-btn' disabled>🎹 JOY & SONG</button>
       <button onclick="selectCategory('80s')" id='btn-80s'>80S</button>
-      <button onclick="selectCategory('alabanza')" id='btn-alabanza'>Alabanza</button>
+      <button onclick="selectCategory('alabanzas')" id='btn-alabanzas'>Alabanzas</button>
       <button onclick="selectCategory('balada_varios')" id='btn-balada_varios'>Balada Varios</button>
       <button onclick="selectCategory('corridos_norteno_banda')" id='btn-corridos_norteno_banda'>Corridos Norteno Banda</button>
       <button onclick="selectCategory('rap')" id='btn-rap'>Rap</button>
@@ -46,22 +46,22 @@
         <p>Cover Thalia</p>
         <audio controls src='songs/80s/cover_thalia.mp3'></audio>
       </section>
-      <section id='section-alabanza'>
-        <h2>Alabanza</h2>
+      <section id='section-alabanzas'>
+        <h2>Alabanzas</h2>
         <p>Alababza-Pop</p>
-        <audio controls src='songs/alabanza/alababza-pop.mp3'></audio>
+        <audio controls src='songs/alabanzas/alababza-pop.mp3'></audio>
         <p>Alabanza-80S</p>
-        <audio controls src='songs/alabanza/alabanza-80s.mp3'></audio>
+        <audio controls src='songs/alabanzas/alabanza-80s.mp3'></audio>
         <p>Alabanza-Banda</p>
-        <audio controls src='songs/alabanza/alabanza-banda.mp3'></audio>
+        <audio controls src='songs/alabanzas/alabanza-banda.mp3'></audio>
         <p>Alabanza-Coros</p>
-        <audio controls src='songs/alabanza/alabanza-coros.mp3'></audio>
+        <audio controls src='songs/alabanzas/alabanza-coros.mp3'></audio>
         <p>Alabanza-Pop 2</p>
-        <audio controls src='songs/alabanza/alabanza-pop_2.mp3'></audio>
+        <audio controls src='songs/alabanzas/alabanza-pop_2.mp3'></audio>
         <p>Alabanza-Tumbado</p>
-        <audio controls src='songs/alabanza/alabanza-tumbado.mp3'></audio>
+        <audio controls src='songs/alabanzas/alabanza-tumbado.mp3'></audio>
         <p>Alabanza Guitarra</p>
-        <audio controls src='songs/alabanza/alabanza_guitarra.mp3'></audio>
+        <audio controls src='songs/alabanzas/alabanza_guitarra.mp3'></audio>
       </section>
       <section id='section-balada_varios'>
         <h2>Balada Varios</h2>
@@ -114,14 +114,14 @@
       </section>
       <section id='section-romantico_varios'>
         <h2>Romantico Varios</h2>
-        <p>658Df8D406A6C735F93252B8Cf3E699A</p>
-        <audio controls src='songs/romantico_varios/658df8d406a6c735f93252b8cf3e699a.mp3'></audio>
-        <p>9D0E308842013Cd14F58Fabb131Fa323</p>
-        <audio controls src='songs/romantico_varios/9d0e308842013cd14f58fabb131fa323.mp3'></audio>
-        <p>Para Siempre</p>
-        <audio controls src='songs/romantico_varios/para_siempre.mp3'></audio>
-        <p>Para Siempre Pop</p>
-        <audio controls src='songs/romantico_varios/para_siempre_pop.mp3'></audio>
+        <p>Balada Romantico</p>
+        <audio controls src='songs/romantico_varios/balada_romantico.mp3'></audio>
+        <p>Banda Romantico</p>
+        <audio controls src='songs/romantico_varios/banda_romantico.mp3'></audio>
+        <p>Pop Romantico</p>
+        <audio controls src='songs/romantico_varios/pop_romantico.mp3'></audio>
+        <p>Tumbado Romantico</p>
+        <audio controls src='songs/romantico_varios/tumbado_romantico.mp3'></audio>
       </section>
       <section id='section-salsa_y_cumbia'>
         <h2>Salsa Y Cumbia</h2>
@@ -135,6 +135,10 @@
     </main>
   </div>
   <script>
+    function scrollToContent() {
+      const content = document.getElementById('content');
+      if (content) content.scrollIntoView({ behavior: 'smooth' });
+    }
     function selectCategory(cat) {
       const sections = document.querySelectorAll('section');
       const buttons = document.querySelectorAll('nav button');
@@ -147,6 +151,8 @@
       const url = new URL(window.location);
       url.searchParams.set('categoria', cat);
       history.pushState({}, '', url);
+      document.title = 'Joy & Song – ' + btn.innerText;
+      scrollToContent();
     }
     function init() {
       const params = new URLSearchParams(window.location.search);

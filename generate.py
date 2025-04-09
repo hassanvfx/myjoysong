@@ -7,14 +7,13 @@ BASE_DIR = Path("songs")
 OUTPUT_HTML = "index.html"
 
 def normalize_name(name):
-    # Reemplaza espacios, acentos y convierte a minúsculas
     nfkd = unicodedata.normalize('NFKD', name)
     ascii_only = ''.join([c for c in nfkd if not unicodedata.combining(c)])
     ascii_only = ascii_only.replace("ñ", "n").replace("Ñ", "n")
     ascii_only = ascii_only.lower().replace(" ", "_")
     return ascii_only
 
-# Paso 1: Renombrar carpetas y archivos
+# Renombrar carpetas y archivos
 for genre_path in list(BASE_DIR.iterdir()):
     if genre_path.is_dir():
         normalized_genre = normalize_name(genre_path.name)
@@ -29,20 +28,20 @@ for genre_path in list(BASE_DIR.iterdir()):
                 os.rename(song_file, new_song_path)
                 print(f"🎵 Renombrado: {song_file.name} → {new_song_path.name}")
 
-# Paso 2: Leer estructura actualizada
+# Leer estructura normalizada
 genres = [g for g in sorted(BASE_DIR.iterdir()) if g.is_dir()]
 
-# Paso 3: Construir el HTML
+# Iniciar HTML
 html_parts = [
     "<!DOCTYPE html>",
     "<html lang='es'>",
     "<head>",
     "  <meta charset='UTF-8'>",
     "  <meta name='viewport' content='width=device-width, initial-scale=1.0'>",
-    "  <title>JOY & SONG</title>",
+    "  <title>Joy & Song</title>",
     "  <style>",
     "    * { box-sizing: border-box; }",
-    "    body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; }",
+    "    body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; scroll-behavior: smooth; }",
     "    .container { display: flex; flex-direction: column; min-height: 100vh; }",
     "    @media(min-width: 768px) { .container { flex-direction: row; } }",
     "    nav { background: #f0f0f0; padding: 1rem; min-width: 220px; display: flex; flex-direction: column; gap: 1rem; }",
@@ -59,25 +58,27 @@ html_parts = [
     "<body>",
     "  <div class='container'>",
     "    <nav id='menu'>",
-    "      <button class='logo-btn' disabled>🎶 JOY & SONG</button>"
+    "      <button class='logo-btn' disabled>🎹 JOY & SONG</button>"
 ]
 
-# Generar botones de navegación
+# Menú de navegación
 for genre in genres:
     genre_name = genre.name
-    html_parts.append(f"      <button onclick=\"selectCategory('{quote(genre_name)}')\" id='btn-{quote(genre_name)}'>{genre_name.replace('_', ' ').title()}</button>")
+    display_name = genre_name.replace('_', ' ').title()
+    html_parts.append(f"      <button onclick=\"selectCategory('{quote(genre_name)}')\" id='btn-{quote(genre_name)}'>{display_name}</button>")
 
 html_parts.extend([
     "    </nav>",
     "    <main id='content'>"
 ])
 
-# Generar secciones de canciones
+# Secciones de música
 for genre in genres:
     genre_name = genre.name
     section_id = quote(genre_name)
+    display_name = genre_name.replace('_', ' ').title()
     html_parts.append(f"      <section id='section-{section_id}'>")
-    html_parts.append(f"        <h2>{genre_name.replace('_', ' ').title()}</h2>")
+    html_parts.append(f"        <h2>{display_name}</h2>")
 
     for song in sorted(genre.glob("*.mp3")):
         song_name = song.stem.replace("_", " ").title()
@@ -87,11 +88,15 @@ for genre in genres:
 
     html_parts.append("      </section>")
 
-# Cierre del HTML + JavaScript
+# Footer y JS
 html_parts.extend([
     "    </main>",
     "  </div>",
     "  <script>",
+    "    function scrollToContent() {",
+    "      const content = document.getElementById('content');",
+    "      if (content) content.scrollIntoView({ behavior: 'smooth' });",
+    "    }",
     "    function selectCategory(cat) {",
     "      const sections = document.querySelectorAll('section');",
     "      const buttons = document.querySelectorAll('nav button');",
@@ -104,6 +109,8 @@ html_parts.extend([
     "      const url = new URL(window.location);",
     "      url.searchParams.set('categoria', cat);",
     "      history.pushState({}, '', url);",
+    "      document.title = 'Joy & Song – ' + btn.innerText;",
+    "      scrollToContent();",
     "    }",
     "    function init() {",
     "      const params = new URLSearchParams(window.location.search);",
@@ -121,9 +128,7 @@ html_parts.extend([
     "</html>"
 ])
 
-# Guardar el HTML
 with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
     f.write("\n".join(html_parts))
 
-print("✅ ¡Todo listo! Archivos normalizados y página 'index.html' generada.")
-print("🚀 Sube con: git add . && git commit -m 'update' && git push")
+print("✅ HTML actualizado con scroll, título dinámico y pianito 🎹. ¡Listo para publicar!")
