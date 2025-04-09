@@ -7,29 +7,32 @@ BASE_DIR = Path("songs")
 OUTPUT_HTML = "index.html"
 
 def normalize_name(name):
-    # Reemplaza espacios por "_", quita acentos y convierte a lowercase
+    # Reemplaza espacios, acentos y convierte a minúsculas
     nfkd = unicodedata.normalize('NFKD', name)
     ascii_only = ''.join([c for c in nfkd if not unicodedata.combining(c)])
-    ascii_only = ascii_only.replace("ñ", "n").replace("Ñ", "N")
+    ascii_only = ascii_only.replace("ñ", "n").replace("Ñ", "n")
     ascii_only = ascii_only.lower().replace(" ", "_")
     return ascii_only
 
-# Renombra carpetas y archivos
+# Paso 1: Renombrar carpetas y archivos
 for genre_path in list(BASE_DIR.iterdir()):
     if genre_path.is_dir():
         normalized_genre = normalize_name(genre_path.name)
         new_genre_path = genre_path.parent / normalized_genre
         if genre_path != new_genre_path:
-            genre_path.rename(new_genre_path)
+            os.rename(genre_path, new_genre_path)
+            print(f"📁 Renombrado: {genre_path.name} → {new_genre_path.name}")
         for song_file in new_genre_path.glob("*.mp3"):
             normalized_song = normalize_name(song_file.name)
             new_song_path = song_file.parent / normalized_song
             if song_file != new_song_path:
-                song_file.rename(new_song_path)
+                os.rename(song_file, new_song_path)
+                print(f"🎵 Renombrado: {song_file.name} → {new_song_path.name}")
 
-# Volvemos a leer la estructura ya normalizada
+# Paso 2: Leer estructura actualizada
 genres = [g for g in sorted(BASE_DIR.iterdir()) if g.is_dir()]
 
+# Paso 3: Construir el HTML
 html_parts = [
     "<!DOCTYPE html>",
     "<html lang='es'>",
@@ -59,7 +62,7 @@ html_parts = [
     "      <button class='logo-btn' disabled>🎶 JOY & SONG</button>"
 ]
 
-# Menú de géneros
+# Generar botones de navegación
 for genre in genres:
     genre_name = genre.name
     html_parts.append(f"      <button onclick=\"selectCategory('{quote(genre_name)}')\" id='btn-{quote(genre_name)}'>{genre_name.replace('_', ' ').title()}</button>")
@@ -69,7 +72,7 @@ html_parts.extend([
     "    <main id='content'>"
 ])
 
-# Secciones por categoría
+# Generar secciones de canciones
 for genre in genres:
     genre_name = genre.name
     section_id = quote(genre_name)
@@ -84,7 +87,7 @@ for genre in genres:
 
     html_parts.append("      </section>")
 
-# Footer + JS
+# Cierre del HTML + JavaScript
 html_parts.extend([
     "    </main>",
     "  </div>",
@@ -122,4 +125,5 @@ html_parts.extend([
 with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
     f.write("\n".join(html_parts))
 
-print("✅ ¡Todo listo! Archivos normalizados y 'index.html' generado para GitHub Pages.")
+print("✅ ¡Todo listo! Archivos normalizados y página 'index.html' generada.")
+print("🚀 Sube con: git add . && git commit -m 'update' && git push")
