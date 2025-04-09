@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 from urllib.parse import quote
 
+# Cambia esto si usas otro nombre de repo
+BASE_PATH = "myjoysong"
 BASE_DIR = Path("songs")
 OUTPUT_HTML = "index.html"
 
@@ -31,7 +33,7 @@ html_parts = [
     "<body>",
     "  <div class='container'>",
     "    <nav id='menu'>",
-    "      <button class='logo-btn' disabled>🎹 JOY & SONG</button>"
+    "      <button class='logo-btn' disabled>🎶 JOY & SONG</button>"
 ]
 
 # Leer categorías
@@ -56,7 +58,7 @@ for genre in genres:
 
     for song in sorted(genre.glob("*.mp3")):
         song_name = song.stem.replace("_", " ").title()
-        song_path = song.as_posix()
+        song_path = f"{BASE_PATH}/{song.as_posix()}"
         html_parts.append(f"        <p>{song_name}</p>")
         html_parts.append(f"        <audio controls src='{song_path}'></audio>")
 
@@ -99,4 +101,4 @@ html_parts.extend([
 with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
     f.write("\n".join(html_parts))
 
-print(f"✅ ¡Página generada con éxito en '{OUTPUT_HTML}'! Lista para usar en GitHub Pages.")
+print(f"✅ ¡Página generada en '{OUTPUT_HTML}' lista para GitHub Pages en '{BASE_PATH}/'!")
