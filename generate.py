@@ -1,11 +1,34 @@
 import os
+import unicodedata
 from pathlib import Path
 from urllib.parse import quote
 
-# Cambia esto si usas otro nombre de repo
-BASE_PATH = "myjoysong"
 BASE_DIR = Path("songs")
 OUTPUT_HTML = "index.html"
+
+def normalize_name(name):
+    # Reemplaza espacios por "_", quita acentos y convierte a lowercase
+    nfkd = unicodedata.normalize('NFKD', name)
+    ascii_only = ''.join([c for c in nfkd if not unicodedata.combining(c)])
+    ascii_only = ascii_only.replace("ñ", "n").replace("Ñ", "N")
+    ascii_only = ascii_only.lower().replace(" ", "_")
+    return ascii_only
+
+# Renombra carpetas y archivos
+for genre_path in list(BASE_DIR.iterdir()):
+    if genre_path.is_dir():
+        normalized_genre = normalize_name(genre_path.name)
+        new_genre_path = genre_path.parent / normalized_genre
+        if genre_path != new_genre_path:
+            genre_path.rename(new_genre_path)
+        for song_file in new_genre_path.glob("*.mp3"):
+            normalized_song = normalize_name(song_file.name)
+            new_song_path = song_file.parent / normalized_song
+            if song_file != new_song_path:
+                song_file.rename(new_song_path)
+
+# Volvemos a leer la estructura ya normalizada
+genres = [g for g in sorted(BASE_DIR.iterdir()) if g.is_dir()]
 
 html_parts = [
     "<!DOCTYPE html>",
@@ -36,34 +59,32 @@ html_parts = [
     "      <button class='logo-btn' disabled>🎶 JOY & SONG</button>"
 ]
 
-# Leer categorías
-genres = [g for g in sorted(BASE_DIR.iterdir()) if g.is_dir()]
-
-# Generar botones del menú
+# Menú de géneros
 for genre in genres:
     genre_name = genre.name
-    html_parts.append(f"      <button onclick=\"selectCategory('{quote(genre_name)}')\" id='btn-{quote(genre_name)}'>{genre_name}</button>")
+    html_parts.append(f"      <button onclick=\"selectCategory('{quote(genre_name)}')\" id='btn-{quote(genre_name)}'>{genre_name.replace('_', ' ').title()}</button>")
 
 html_parts.extend([
     "    </nav>",
     "    <main id='content'>"
 ])
 
-# Generar secciones de canciones
+# Secciones por categoría
 for genre in genres:
     genre_name = genre.name
     section_id = quote(genre_name)
     html_parts.append(f"      <section id='section-{section_id}'>")
-    html_parts.append(f"        <h2>{genre_name}</h2>")
+    html_parts.append(f"        <h2>{genre_name.replace('_', ' ').title()}</h2>")
 
     for song in sorted(genre.glob("*.mp3")):
         song_name = song.stem.replace("_", " ").title()
-        song_path = f"{BASE_PATH}/{song.as_posix()}"
+        song_path = song.as_posix()
         html_parts.append(f"        <p>{song_name}</p>")
         html_parts.append(f"        <audio controls src='{song_path}'></audio>")
 
     html_parts.append("      </section>")
 
+# Footer + JS
 html_parts.extend([
     "    </main>",
     "  </div>",
@@ -101,4 +122,4 @@ html_parts.extend([
 with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
     f.write("\n".join(html_parts))
 
-print(f"✅ ¡Página generada en '{OUTPUT_HTML}' lista para GitHub Pages en '{BASE_PATH}/'!")
+print("✅ ¡Todo listo! Archivos normalizados y 'index.html' generado para GitHub Pages.")
