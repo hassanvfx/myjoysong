@@ -54,18 +54,18 @@ html_parts = [
     "    .logo-btn { background: #222 !important; color: white; font-size: 1.4rem; text-align: center; cursor: default; }",
     "    .logo-btn:hover { background: #222 !important; }",
     "    .whatsapp-btn {",
-    "         background: #25D366 !important;",
+    "         background: #1B8E34 !important;",   # Color verde más oscuro
     "         color: white !important;",
     "         font-size: 1.1rem;",
     "         padding: 0.75rem 1rem;",
     "         border: none;",
     "         border-radius: 8px;",
     "         cursor: pointer;",
-    "         text-align: left;",
+    "         text-align: center;",              # Centrar el texto
     "         width: 100%;",
     "    }",
     "    .whatsapp-btn:hover {",
-    "         background: #1ebe5d !important;",
+    "         background: #15712A !important;",  # Color de hover un poco más oscuro
     "    }",
     "  </style>",
     "</head>",
@@ -148,4 +148,4 @@ html_parts.extend([
 with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
     f.write("\n".join(html_parts))
 
-print("✅ HTML actualizado con scroll, título dinámico, pianito 🎹 y el botón de WhatsApp. ¡Listo para publicar!")
+print("✅ HTML actualizado con scroll, título dinámico, pianito 🎹 y el botón de WhatsApp personalizado. ¡Listo para publicar!")
