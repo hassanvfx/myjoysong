@@ -58,7 +58,10 @@ html_parts = [
     "<body>",
     "  <div class='container'>",
     "    <nav id='menu'>",
-    "      <button class='logo-btn' disabled>🎹 JOY & SONG</button>"
+    "      <button class='logo-btn' disabled>🎹 JOY & SONG</button>",
+    "      <a href='https://wa.me/5215574179877' target='_blank' style='text-decoration: none;'>",
+    "        <button class='logo-btn'>📞 PIDE TU CANCION</button>",
+    "      </a>"
 ]
 
 # Menú de navegación
