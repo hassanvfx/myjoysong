@@ -53,6 +53,20 @@ html_parts = [
     "    audio { width: 100%; max-width: 500px; margin-bottom: 1rem; display: block; }",
     "    .logo-btn { background: #222 !important; color: white; font-size: 1.4rem; text-align: center; cursor: default; }",
     "    .logo-btn:hover { background: #222 !important; }",
+    "    .whatsapp-btn {",
+    "         background: #25D366 !important;",
+    "         color: white !important;",
+    "         font-size: 1.1rem;",
+    "         padding: 0.75rem 1rem;",
+    "         border: none;",
+    "         border-radius: 8px;",
+    "         cursor: pointer;",
+    "         text-align: left;",
+    "         width: 100%;",
+    "    }",
+    "    .whatsapp-btn:hover {",
+    "         background: #1ebe5d !important;",
+    "    }",
     "  </style>",
     "</head>",
     "<body>",
@@ -60,7 +74,7 @@ html_parts = [
     "    <nav id='menu'>",
     "      <button class='logo-btn' disabled>🎹 JOY & SONG</button>",
     "      <a href='https://wa.me/5215574179877' target='_blank' style='text-decoration: none;'>",
-    "        <button class='logo-btn'>📞 PIDE TU CANCION</button>",
+    "        <button class='whatsapp-btn'>📞 PIDE TU CANCION</button>",
     "      </a>"
 ]
 
@@ -134,4 +148,4 @@ html_parts.extend([
 with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
     f.write("\n".join(html_parts))
 
-print("✅ HTML actualizado con scroll, título dinámico y pianito 🎹. ¡Listo para publicar!")
+print("✅ HTML actualizado con scroll, título dinámico, pianito 🎹 y el botón de WhatsApp. ¡Listo para publicar!")
