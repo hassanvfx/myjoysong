@@ -16,17 +16,36 @@ def normalize_name(name):
 # Renombrar carpetas y archivos
 for genre_path in list(BASE_DIR.iterdir()):
     if genre_path.is_dir():
+        # Normalize genre folder name.
         normalized_genre = normalize_name(genre_path.name)
         new_genre_path = genre_path.parent / normalized_genre
         if genre_path != new_genre_path:
             os.rename(genre_path, new_genre_path)
             print(f"📁 Renombrado: {genre_path.name} → {new_genre_path.name}")
-        for song_file in new_genre_path.glob("*.mp3"):
-            normalized_song = normalize_name(song_file.name)
-            new_song_path = song_file.parent / normalized_song
-            if song_file != new_song_path:
-                os.rename(song_file, new_song_path)
-                print(f"🎵 Renombrado: {song_file.name} → {new_song_path.name}")
+        
+        # Process each item inside the genre folder.
+        for item in list(new_genre_path.iterdir()):
+            if item.is_dir():
+                # Normalize subfolder name.
+                normalized_subfolder = normalize_name(item.name)
+                new_subfolder_path = item.parent / normalized_subfolder
+                if item != new_subfolder_path:
+                    os.rename(item, new_subfolder_path)
+                    print(f"📁 Renombrado: {item.name} → {new_subfolder_path.name}")
+                # Rename songs in the subfolder.
+                for song_file in new_subfolder_path.glob("*.mp3"):
+                    normalized_song = normalize_name(song_file.name)
+                    new_song_path = song_file.parent / normalized_song
+                    if song_file != new_song_path:
+                        os.rename(song_file, new_song_path)
+                        print(f"🎵 Renombrado: {song_file.name} → {new_song_path.name}")
+            elif item.is_file() and item.suffix.lower() == ".mp3":
+                # Rename mp3 files directly inside the genre folder.
+                normalized_song = normalize_name(item.name)
+                new_song_path = item.parent / normalized_song
+                if item != new_song_path:
+                    os.rename(item, new_song_path)
+                    print(f"🎵 Renombrado: {item.name} → {new_song_path.name}")
 
 # Leer estructura normalizada
 genres = [g for g in sorted(BASE_DIR.iterdir()) if g.is_dir()]
@@ -54,18 +73,18 @@ html_parts = [
     "    .logo-btn { background: #222 !important; color: white; font-size: 1.4rem; text-align: center; cursor: default; }",
     "    .logo-btn:hover { background: #222 !important; }",
     "    .whatsapp-btn {",
-    "         background: #1B8E34 !important;",   # Color verde más oscuro
+    "         background: #1B8E34 !important;",
     "         color: white !important;",
     "         font-size: 1.1rem;",
     "         padding: 0.75rem 1rem;",
     "         border: none;",
     "         border-radius: 8px;",
     "         cursor: pointer;",
-    "         text-align: center;",              # Centrar el texto
+    "         text-align: center;",
     "         width: 100%;",
     "    }",
     "    .whatsapp-btn:hover {",
-    "         background: #15712A !important;",  # Color de hover un poco más oscuro
+    "         background: #15712A !important;",
     "    }",
     "  </style>",
     "</head>",
@@ -89,19 +108,34 @@ html_parts.extend([
     "    <main id='content'>"
 ])
 
-# Secciones de música
+# Secciones de música por género
 for genre in genres:
     genre_name = genre.name
     section_id = quote(genre_name)
     display_name = genre_name.replace('_', ' ').title()
     html_parts.append(f"      <section id='section-{section_id}'>")
     html_parts.append(f"        <h2>{display_name}</h2>")
-
-    for song in sorted(genre.glob("*.mp3")):
-        song_name = song.stem.replace("_", " ").title()
-        song_path = song.as_posix()
-        html_parts.append(f"        <p>{song_name}</p>")
-        html_parts.append(f"        <audio controls src='{song_path}'></audio>")
+    
+    # Determinar si hay subcarpetas dentro del género.
+    subfolders = sorted([item for item in genre.iterdir() if item.is_dir()])
+    if subfolders:
+        # Si hay subdirectorios, listarlos agrupados.
+        for subfolder in subfolders:
+            subfolder_name = subfolder.name
+            display_sub_name = subfolder_name.replace('_', ' ').title()
+            html_parts.append(f"        <h3>{display_sub_name}</h3>")
+            for song in sorted(subfolder.glob("*.mp3")):
+                song_name = song.stem.replace("_", " ").title()
+                song_path = song.as_posix()
+                html_parts.append(f"        <p>{song_name}</p>")
+                html_parts.append(f"        <audio controls src='{song_path}'></audio>")
+    else:
+        # Si no hay subcarpetas, listar los archivos mp3 directamente.
+        for song in sorted(genre.glob("*.mp3")):
+            song_name = song.stem.replace("_", " ").title()
+            song_path = song.as_posix()
+            html_parts.append(f"        <p>{song_name}</p>")
+            html_parts.append(f"        <audio controls src='{song_path}'></audio>")
 
     html_parts.append("      </section>")
 
