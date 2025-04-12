@@ -16,23 +16,23 @@ def normalize_name(name):
 # Renombrar carpetas y archivos
 for genre_path in list(BASE_DIR.iterdir()):
     if genre_path.is_dir():
-        # Normalize genre folder name.
+        # Normalizar el nombre de la carpeta de género.
         normalized_genre = normalize_name(genre_path.name)
         new_genre_path = genre_path.parent / normalized_genre
         if genre_path != new_genre_path:
             os.rename(genre_path, new_genre_path)
             print(f"📁 Renombrado: {genre_path.name} → {new_genre_path.name}")
         
-        # Process each item inside the genre folder.
+        # Procesar cada elemento dentro de la carpeta del género.
         for item in list(new_genre_path.iterdir()):
             if item.is_dir():
-                # Normalize subfolder name.
+                # Normalizar el nombre de la subcarpeta.
                 normalized_subfolder = normalize_name(item.name)
                 new_subfolder_path = item.parent / normalized_subfolder
                 if item != new_subfolder_path:
                     os.rename(item, new_subfolder_path)
                     print(f"📁 Renombrado: {item.name} → {new_subfolder_path.name}")
-                # Rename songs in the subfolder.
+                # Renombrar las canciones de la subcarpeta.
                 for song_file in new_subfolder_path.glob("*.mp3"):
                     normalized_song = normalize_name(song_file.name)
                     new_song_path = song_file.parent / normalized_song
@@ -40,7 +40,7 @@ for genre_path in list(BASE_DIR.iterdir()):
                         os.rename(song_file, new_song_path)
                         print(f"🎵 Renombrado: {song_file.name} → {new_song_path.name}")
             elif item.is_file() and item.suffix.lower() == ".mp3":
-                # Rename mp3 files directly inside the genre folder.
+                # Renombrar los archivos mp3 que estén directamente dentro de la carpeta del género.
                 normalized_song = normalize_name(item.name)
                 new_song_path = item.parent / normalized_song
                 if item != new_song_path:
@@ -97,11 +97,14 @@ html_parts = [
     "      </a>"
 ]
 
-# Menú de navegación
+# Menú de navegación por cada género
 for genre in genres:
     genre_name = genre.name
     display_name = genre_name.replace('_', ' ').title()
     html_parts.append(f"      <button onclick=\"selectCategory('{quote(genre_name)}')\" id='btn-{quote(genre_name)}'>{display_name}</button>")
+
+# Botón para TODOS LOS HITS
+html_parts.append("      <button onclick=\"selectCategory('all')\" id='btn-all'>TODOS LOS HITS</button>")
 
 html_parts.extend([
     "    </nav>",
@@ -116,10 +119,9 @@ for genre in genres:
     html_parts.append(f"      <section id='section-{section_id}'>")
     html_parts.append(f"        <h2>{display_name}</h2>")
     
-    # Determinar si hay subcarpetas dentro del género.
+    # Si hay subcarpetas, listarlas agrupadas.
     subfolders = sorted([item for item in genre.iterdir() if item.is_dir()])
     if subfolders:
-        # Si hay subdirectorios, listarlos agrupados.
         for subfolder in subfolders:
             subfolder_name = subfolder.name
             display_sub_name = subfolder_name.replace('_', ' ').title()
@@ -136,8 +138,35 @@ for genre in genres:
             song_path = song.as_posix()
             html_parts.append(f"        <p>{song_name}</p>")
             html_parts.append(f"        <audio controls src='{song_path}'></audio>")
-
     html_parts.append("      </section>")
+
+# Sección "TODOS LOS HITS" que agrupa todas las rolas de todos los géneros, separadas por encabezados según su carpeta
+html_parts.append("      <section id='section-all'>")
+html_parts.append("        <h2>TODOS LOS HITS</h2>")
+for genre in genres:
+    genre_display = genre.name.replace('_', ' ').title()
+    # Primero, si hay archivos .mp3 directamente en la carpeta del género.
+    genre_direct_songs = sorted(list(genre.glob("*.mp3")))
+    if genre_direct_songs:
+        html_parts.append(f"        <h3>{genre_display}</h3>")
+        for song in genre_direct_songs:
+            song_name = song.stem.replace("_", " ").title()
+            song_path = song.as_posix()
+            html_parts.append(f"        <p>{song_name}</p>")
+            html_parts.append(f"        <audio controls src='{song_path}'></audio>")
+    # Luego, para cada subcarpeta dentro del género.
+    subfolders = sorted([item for item in genre.iterdir() if item.is_dir()])
+    for subfolder in subfolders:
+        subfolder_display = subfolder.name.replace('_', ' ').title()
+        # El encabezado combinará el nombre del género y el de la subcarpeta.
+        header = f"{genre_display} - {subfolder_display}"
+        html_parts.append(f"        <h3>{header}</h3>")
+        for song in sorted(subfolder.glob("*.mp3")):
+            song_name = song.stem.replace("_", " ").title()
+            song_path = song.as_posix()
+            html_parts.append(f"        <p>{song_name}</p>")
+            html_parts.append(f"        <audio controls src='{song_path}'></audio>")
+html_parts.append("      </section>")
 
 # Footer y JavaScript
 html_parts.extend([
@@ -160,7 +189,7 @@ html_parts.extend([
     "      const url = new URL(window.location);",
     "      url.searchParams.set('categoria', cat);",
     "      history.pushState({}, '', url);",
-    "      document.title = 'Joy & Song – ' + btn.innerText;",
+    "      document.title = 'Joy & Song – ' + (btn ? btn.innerText : '');",
     "      scrollToContent();",
     "    }",
     "    function init() {",
@@ -173,11 +202,10 @@ html_parts.extend([
     "        selectCategory(first);",
     "      }",
     "    }",
-    "    // Al cargar la página se inician la navegación y los controles de audio.",
+    "    // Al cargar la página se inicializan la navegación y los controles de audio.",
     "    window.onload = function() {",
     "      init();",
-    "      // Para que al reproducir un audio, se pause el que ya se estuviera reproduciendo",
-    "      // y para continuar automáticamente con el siguiente audio al terminar el actual.",
+    "      // Para que al reproducir un audio se pause el que estuviera reproduciéndose y se reanude el siguiente (opcional).",
     "      const audios = document.querySelectorAll('audio');",
     "      let currentAudio = null;",
     "      audios.forEach(audio => {",
@@ -209,4 +237,4 @@ html_parts.extend([
 with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
     f.write("\n".join(html_parts))
 
-print("✅ HTML actualizado con scroll, título dinámico, control de reproducción único y autoplay opcional. ¡Listo para publicar!")
+print("✅ HTML actualizado con scroll, título dinámico, control de reproducción único, autoplay opcional y la nueva función 'TODOS LOS HITS'. ¡Listo para publicar!")
