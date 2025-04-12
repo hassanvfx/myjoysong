@@ -139,7 +139,7 @@ for genre in genres:
 
     html_parts.append("      </section>")
 
-# Footer y JS
+# Footer y JavaScript
 html_parts.extend([
     "    </main>",
     "  </div>",
@@ -173,7 +173,34 @@ html_parts.extend([
     "        selectCategory(first);",
     "      }",
     "    }",
-    "    window.onload = init;",
+    "    // Al cargar la página se inician la navegación y los controles de audio.",
+    "    window.onload = function() {",
+    "      init();",
+    "      // Para que al reproducir un audio, se pause el que ya se estuviera reproduciendo",
+    "      // y para continuar automáticamente con el siguiente audio al terminar el actual.",
+    "      const audios = document.querySelectorAll('audio');",
+    "      let currentAudio = null;",
+    "      audios.forEach(audio => {",
+    "        audio.addEventListener('play', function() {",
+    "          if (currentAudio && currentAudio !== this) {",
+    "            currentAudio.pause();",
+    "            currentAudio.currentTime = 0;",
+    "          }",
+    "          currentAudio = this;",
+    "        });",
+    "        audio.addEventListener('ended', function() {",
+    "          // (Opcional) Reproduce automáticamente el siguiente audio de la sección activa",
+    "          const activeSection = document.querySelector('section.active');",
+    "          if (activeSection) {",
+    "            const sectionAudios = Array.from(activeSection.querySelectorAll('audio'));",
+    "            const index = sectionAudios.indexOf(this);",
+    "            if (index !== -1 && index < sectionAudios.length - 1) {",
+    "              sectionAudios[index + 1].play();",
+    "            }",
+    "          }",
+    "        });",
+    "      });",
+    "    };",
     "  </script>",
     "</body>",
     "</html>"
@@ -182,4 +209,4 @@ html_parts.extend([
 with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
     f.write("\n".join(html_parts))
 
-print("✅ HTML actualizado con scroll, título dinámico, pianito 🎹 y el botón de WhatsApp personalizado. ¡Listo para publicar!")
+print("✅ HTML actualizado con scroll, título dinámico, control de reproducción único y autoplay opcional. ¡Listo para publicar!")
