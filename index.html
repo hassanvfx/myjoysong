@@ -6,18 +6,68 @@
   <title>Joy & Song</title>
   <style>
     * { box-sizing: border-box; }
-    body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; scroll-behavior: smooth; }
-    .container { display: flex; flex-direction: column; min-height: 100vh; }
-    @media(min-width: 768px) { .container { flex-direction: row; } }
-    nav { background: #f0f0f0; padding: 1rem; min-width: 220px; display: flex; flex-direction: column; gap: 1rem; }
-    nav button { font-size: 1.1rem; padding: 0.75rem 1rem; border: none; cursor: pointer; border-radius: 8px; background: #e0e0e0; text-align: left; }
-    nav button.active { background: #c0c0c0; font-weight: bold; }
-    main { flex: 1; padding: 2rem; }
+    body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; scroll-behavior: smooth; background: #f8f8f8; }
+    .container { display: flex; flex-direction: row; min-height: 100vh; }
+    @media(max-width: 768px) { .container { flex-direction: column; } }
+    /* Header mobile: siempre visible en mobile */
+    header#mobile-header {
+         display: none;
+         text-align: center;
+         padding: 0.5rem;
+         background: #222;
+    }
+    header#mobile-header img {
+         max-width: 100px;
+         height: auto;
+    }
+    @media(max-width:768px) {
+         header#mobile-header { display: block; }
+         nav .nav-logo { display: none; }
+    }
+    nav { background: #222; padding: 1rem; min-width: 220px; display: flex; flex-direction: column; gap: 1rem; }
+    /* Botón para alternar menú en mobile */
+    #mobile-toggle {
+         display: none;
+         width: auto;  /* Se adapta al contenido */
+         padding: 0.75rem 1.5rem;  /* Mayor padding horizontal para resaltar el botón */
+         font-size: 1.1rem;
+         margin-bottom: 1rem;
+         cursor: pointer;
+         background: #444;
+         color: #fff;
+         border: none;
+         border-radius: 8px;
+         transition: background 0.3s;
+    }
+    @media (max-width: 768px) {
+         #mobile-toggle { display: block; margin: 1rem auto; }
+         nav { display: none; flex-direction: column; }
+    }
+    /* Social buttons con íconos limitados en tamaño */
+    .social-buttons { display: flex; justify-content: space-around; gap: 0.5rem; }
+    .social-button { font-size: 0.9rem; padding: 0.5rem; text-align: center; text-decoration: none; border-radius: 5px; border: 1px solid transparent; }
+    .social-button.youtube { background: #222; border-color: #ff0000; color: #ff0000; }
+    .social-button.spotify { background: #222; border-color: #1DB954; color: #1DB954; }
+    .social-button img { max-width: 30px; max-height: 30px; vertical-align: middle; }
+    /* Botones de género y opciones */
+    nav button { font-size: 1.1rem; padding: 0.75rem 1rem; border: none; cursor: pointer; border-radius: 8px; background: #444; color: #fff; text-align: left; transition: background 0.3s; }
+    nav button:hover { background: #555; }
+    nav button.active { background: #000; color: #fff; font-weight: bold; }
+    main { flex: 1; padding: 2rem; background: #fff; }
+    /* Estilos para el cintillo/banner */
+    .banner {
+         background: #222;
+         color: #fff;
+         padding: 1rem;
+         text-align: center;
+         font-size: 1.5rem;
+         font-weight: bold;
+         margin-bottom: 1rem;
+    }
     section { display: none; }
     section.active { display: block; }
     audio { width: 100%; max-width: 500px; margin-bottom: 1rem; display: block; }
-    .logo-btn { background: #222 !important; color: white; font-size: 1.4rem; text-align: center; cursor: default; }
-    .logo-btn:hover { background: #222 !important; }
+    /* WhatsApp button styling */
     .whatsapp-btn {
          background: #1B8E34 !important;
          color: white !important;
@@ -28,23 +78,42 @@
          cursor: pointer;
          text-align: center;
          width: 100%;
+         transition: background 0.3s;
     }
     .whatsapp-btn:hover {
          background: #15712A !important;
     }
+    /* Limitar el tamaño del logo en nav */
+    .nav-logo { max-width: 200px; height: auto; }
   </style>
 </head>
 <body>
+  <!-- Header mobile: logo pequeño visible siempre en mobile -->
+  <header id='mobile-header'>
+      <img src='images/logo.jpg' alt='Logo Mobile'>
+  </header>
   <div class='container'>
+    <!-- Botón toggle para menú en mobile -->
+    <button id='mobile-toggle' onclick='showMenu()'>VER MENU COMPLETO</button>
     <nav id='menu'>
-      <button class='logo-btn' disabled>🎹 JOY & SONG</button>
+      <!-- Logo para desktop (oculto en mobile) -->
+      <img src='images/logo.jpg' alt='Logo' class='nav-logo'>
+      <!-- Botones de redes sociales con logos y nombres en su color correspondiente -->
+      <div class='social-buttons'>
+         <a href='https://www.youtube.com/@myjoysong' target='_blank' class='social-button youtube'>
+           <img src='images/youtube.png' alt='YouTube'> YouTube
+         </a>
+         <a href='https://open.spotify.com/artist/5RhN6e7pSwsEOkjBBIBSGQ?si=1Ua3S2KCRSO8zftqhk8CTQ' target='_blank' class='social-button spotify'>
+           <img src='images/spotify.png' alt='Spotify'> Spotify
+         </a>
+      </div>
+      <!-- Botón para WhatsApp -->
       <a href='https://wa.me/5215574179877' target='_blank' style='text-decoration: none;'>
-        <button class='whatsapp-btn'>📞 PIDE TU CANCION</button>
+        <button class='whatsapp-btn'><img src='images/whatsapp.svg' alt='WhatsApp' style='vertical-align: middle; max-width:20px; margin-right: 5px;'> PIDE TU CANCION</button>
       </a>
       <button onclick="selectCategory('00_album_para_siempre')" id='btn-00_album_para_siempre'>00 Album Para Siempre</button>
+      <button onclick="selectCategory('01_balada_romantica')" id='btn-01_balada_romantica'>01 Balada Romantica</button>
       <button onclick="selectCategory('80s_y_90s')" id='btn-80s_y_90s'>80S Y 90S</button>
-      <button onclick="selectCategory('alabanzas')" id='btn-alabanzas'>Alabanzas</button>
-      <button onclick="selectCategory('balada_varios')" id='btn-balada_varios'>Balada Varios</button>
       <button onclick="selectCategory('canta_autor')" id='btn-canta_autor'>Canta Autor</button>
       <button onclick="selectCategory('corridos_norteno_banda')" id='btn-corridos_norteno_banda'>Corridos Norteno Banda</button>
       <button onclick="selectCategory('mariachi')" id='btn-mariachi'>Mariachi</button>
@@ -52,9 +121,12 @@
       <button onclick="selectCategory('romantico_varios')" id='btn-romantico_varios'>Romantico Varios</button>
       <button onclick="selectCategory('salsa_y_cumbia')" id='btn-salsa_y_cumbia'>Salsa Y Cumbia</button>
       <button onclick="selectCategory('xvs')" id='btn-xvs'>Xvs</button>
+      <button onclick="selectCategory('zz_alabanzas')" id='btn-zz_alabanzas'>Zz Alabanzas</button>
       <button onclick="selectCategory('all')" id='btn-all'>TODOS LOS HITS</button>
     </nav>
     <main id='content'>
+      <!-- Cintillo/banner con eslogan -->
+      <div class='banner'>CANCIONES 100% TU VIDA Y TU MUSICA FAVORITA</div>
       <section id='section-00_album_para_siempre'>
         <h2>00 Album Para Siempre</h2>
         <p>Para Siempre</p>
@@ -65,6 +137,21 @@
         <audio controls src='songs/00_album_para_siempre/para_siempre_tumbado.mp3'></audio>
         <p>Para Siepre Banda</p>
         <audio controls src='songs/00_album_para_siempre/para_siepre_banda.mp3'></audio>
+      </section>
+      <section id='section-01_balada_romantica'>
+        <h2>01 Balada Romantica</h2>
+        <p>Balada</p>
+        <audio controls src='songs/01_balada_romantica/balada.mp3'></audio>
+        <p>Balada Guitarra</p>
+        <audio controls src='songs/01_balada_romantica/balada_guitarra.mp3'></audio>
+        <p>Balada Mariachi</p>
+        <audio controls src='songs/01_balada_romantica/balada_mariachi.mp3'></audio>
+        <p>Balda Pop</p>
+        <audio controls src='songs/01_balada_romantica/balda_pop.mp3'></audio>
+        <p>Hoy Supe De Ti</p>
+        <audio controls src='songs/01_balada_romantica/hoy_supe_de_ti.mp3'></audio>
+        <p>Nos Vimos Entre Pasillos,   (1)</p>
+        <audio controls src='songs/01_balada_romantica/nos_vimos_entre_pasillos,___(1).mp3'></audio>
       </section>
       <section id='section-80s_y_90s'>
         <h2>80S Y 90S</h2>
@@ -84,38 +171,6 @@
         <audio controls src='songs/80s_y_90s/cover_mariposa.mp3'></audio>
         <p>Cover Thalia</p>
         <audio controls src='songs/80s_y_90s/cover_thalia.mp3'></audio>
-      </section>
-      <section id='section-alabanzas'>
-        <h2>Alabanzas</h2>
-        <p>Alababza-Pop</p>
-        <audio controls src='songs/alabanzas/alababza-pop.mp3'></audio>
-        <p>Alabanza-80S</p>
-        <audio controls src='songs/alabanzas/alabanza-80s.mp3'></audio>
-        <p>Alabanza-Banda</p>
-        <audio controls src='songs/alabanzas/alabanza-banda.mp3'></audio>
-        <p>Alabanza-Coros</p>
-        <audio controls src='songs/alabanzas/alabanza-coros.mp3'></audio>
-        <p>Alabanza-Pop 2</p>
-        <audio controls src='songs/alabanzas/alabanza-pop_2.mp3'></audio>
-        <p>Alabanza-Tumbado</p>
-        <audio controls src='songs/alabanzas/alabanza-tumbado.mp3'></audio>
-        <p>Alabanza Guitarra</p>
-        <audio controls src='songs/alabanzas/alabanza_guitarra.mp3'></audio>
-      </section>
-      <section id='section-balada_varios'>
-        <h2>Balada Varios</h2>
-        <p>Balada</p>
-        <audio controls src='songs/balada_varios/balada.mp3'></audio>
-        <p>Balada Guitarra</p>
-        <audio controls src='songs/balada_varios/balada_guitarra.mp3'></audio>
-        <p>Balada Mariachi</p>
-        <audio controls src='songs/balada_varios/balada_mariachi.mp3'></audio>
-        <p>Balda Pop</p>
-        <audio controls src='songs/balada_varios/balda_pop.mp3'></audio>
-        <p>Hoy Supe De Ti</p>
-        <audio controls src='songs/balada_varios/hoy_supe_de_ti.mp3'></audio>
-        <p>Nos Vimos Entre Pasillos,   (1)</p>
-        <audio controls src='songs/balada_varios/nos_vimos_entre_pasillos,___(1).mp3'></audio>
       </section>
       <section id='section-canta_autor'>
         <h2>Canta Autor</h2>
@@ -236,6 +291,23 @@
         <p>Xv Anos Con Reggaeton —Ana Knda (Promo)</p>
         <audio controls src='songs/xvs/xv_anos_con_reggaeton_—ana_knda_(promo).mp3'></audio>
       </section>
+      <section id='section-zz_alabanzas'>
+        <h2>Zz Alabanzas</h2>
+        <p>Alababza-Pop</p>
+        <audio controls src='songs/zz_alabanzas/alababza-pop.mp3'></audio>
+        <p>Alabanza-80S</p>
+        <audio controls src='songs/zz_alabanzas/alabanza-80s.mp3'></audio>
+        <p>Alabanza-Banda</p>
+        <audio controls src='songs/zz_alabanzas/alabanza-banda.mp3'></audio>
+        <p>Alabanza-Coros</p>
+        <audio controls src='songs/zz_alabanzas/alabanza-coros.mp3'></audio>
+        <p>Alabanza-Pop 2</p>
+        <audio controls src='songs/zz_alabanzas/alabanza-pop_2.mp3'></audio>
+        <p>Alabanza-Tumbado</p>
+        <audio controls src='songs/zz_alabanzas/alabanza-tumbado.mp3'></audio>
+        <p>Alabanza Guitarra</p>
+        <audio controls src='songs/zz_alabanzas/alabanza_guitarra.mp3'></audio>
+      </section>
       <section id='section-all'>
         <h2>TODOS LOS HITS</h2>
         <h3>00 Album Para Siempre</h3>
@@ -247,6 +319,19 @@
         <audio controls src='songs/00_album_para_siempre/para_siempre_tumbado.mp3'></audio>
         <p>Para Siepre Banda</p>
         <audio controls src='songs/00_album_para_siempre/para_siepre_banda.mp3'></audio>
+        <h3>01 Balada Romantica</h3>
+        <p>Balada</p>
+        <audio controls src='songs/01_balada_romantica/balada.mp3'></audio>
+        <p>Balada Guitarra</p>
+        <audio controls src='songs/01_balada_romantica/balada_guitarra.mp3'></audio>
+        <p>Balada Mariachi</p>
+        <audio controls src='songs/01_balada_romantica/balada_mariachi.mp3'></audio>
+        <p>Balda Pop</p>
+        <audio controls src='songs/01_balada_romantica/balda_pop.mp3'></audio>
+        <p>Hoy Supe De Ti</p>
+        <audio controls src='songs/01_balada_romantica/hoy_supe_de_ti.mp3'></audio>
+        <p>Nos Vimos Entre Pasillos,   (1)</p>
+        <audio controls src='songs/01_balada_romantica/nos_vimos_entre_pasillos,___(1).mp3'></audio>
         <h3>80S Y 90S</h3>
         <p>Cover Arjona</p>
         <audio controls src='songs/80s_y_90s/cover_arjona.mp3'></audio>
@@ -264,34 +349,6 @@
         <audio controls src='songs/80s_y_90s/cover_mariposa.mp3'></audio>
         <p>Cover Thalia</p>
         <audio controls src='songs/80s_y_90s/cover_thalia.mp3'></audio>
-        <h3>Alabanzas</h3>
-        <p>Alababza-Pop</p>
-        <audio controls src='songs/alabanzas/alababza-pop.mp3'></audio>
-        <p>Alabanza-80S</p>
-        <audio controls src='songs/alabanzas/alabanza-80s.mp3'></audio>
-        <p>Alabanza-Banda</p>
-        <audio controls src='songs/alabanzas/alabanza-banda.mp3'></audio>
-        <p>Alabanza-Coros</p>
-        <audio controls src='songs/alabanzas/alabanza-coros.mp3'></audio>
-        <p>Alabanza-Pop 2</p>
-        <audio controls src='songs/alabanzas/alabanza-pop_2.mp3'></audio>
-        <p>Alabanza-Tumbado</p>
-        <audio controls src='songs/alabanzas/alabanza-tumbado.mp3'></audio>
-        <p>Alabanza Guitarra</p>
-        <audio controls src='songs/alabanzas/alabanza_guitarra.mp3'></audio>
-        <h3>Balada Varios</h3>
-        <p>Balada</p>
-        <audio controls src='songs/balada_varios/balada.mp3'></audio>
-        <p>Balada Guitarra</p>
-        <audio controls src='songs/balada_varios/balada_guitarra.mp3'></audio>
-        <p>Balada Mariachi</p>
-        <audio controls src='songs/balada_varios/balada_mariachi.mp3'></audio>
-        <p>Balda Pop</p>
-        <audio controls src='songs/balada_varios/balda_pop.mp3'></audio>
-        <p>Hoy Supe De Ti</p>
-        <audio controls src='songs/balada_varios/hoy_supe_de_ti.mp3'></audio>
-        <p>Nos Vimos Entre Pasillos,   (1)</p>
-        <audio controls src='songs/balada_varios/nos_vimos_entre_pasillos,___(1).mp3'></audio>
         <h3>Canta Autor - Canta Autor Grupero</h3>
         <p>Acapella Cliente</p>
         <audio controls src='songs/canta_autor/canta_autor_grupero/acapella_cliente.mp3'></audio>
@@ -395,10 +452,33 @@
         <audio controls src='songs/xvs/vals_de_xv_anos_—leo_sol.mp3'></audio>
         <p>Xv Anos Con Reggaeton —Ana Knda (Promo)</p>
         <audio controls src='songs/xvs/xv_anos_con_reggaeton_—ana_knda_(promo).mp3'></audio>
+        <h3>Zz Alabanzas</h3>
+        <p>Alababza-Pop</p>
+        <audio controls src='songs/zz_alabanzas/alababza-pop.mp3'></audio>
+        <p>Alabanza-80S</p>
+        <audio controls src='songs/zz_alabanzas/alabanza-80s.mp3'></audio>
+        <p>Alabanza-Banda</p>
+        <audio controls src='songs/zz_alabanzas/alabanza-banda.mp3'></audio>
+        <p>Alabanza-Coros</p>
+        <audio controls src='songs/zz_alabanzas/alabanza-coros.mp3'></audio>
+        <p>Alabanza-Pop 2</p>
+        <audio controls src='songs/zz_alabanzas/alabanza-pop_2.mp3'></audio>
+        <p>Alabanza-Tumbado</p>
+        <audio controls src='songs/zz_alabanzas/alabanza-tumbado.mp3'></audio>
+        <p>Alabanza Guitarra</p>
+        <audio controls src='songs/zz_alabanzas/alabanza_guitarra.mp3'></audio>
       </section>
     </main>
   </div>
   <script>
+    function showMenu() {
+      document.getElementById('menu').style.display = 'flex';
+      document.getElementById('mobile-toggle').style.display = 'none';
+    }
+    function hideMenu() {
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('mobile-toggle').style.display = 'block';
+    }
     function scrollToContent() {
       const content = document.getElementById('content');
       if (content) content.scrollIntoView({ behavior: 'smooth' });
@@ -417,6 +497,7 @@
       history.pushState({}, '', url);
       document.title = 'Joy & Song – ' + (btn ? btn.innerText : '');
       scrollToContent();
+      if (window.innerWidth <= 768) { hideMenu(); }
     }
     function init() {
       const params = new URLSearchParams(window.location.search);
@@ -428,10 +509,8 @@
         selectCategory(first);
       }
     }
-    // Al cargar la página se inicializan la navegación y los controles de audio.
     window.onload = function() {
       init();
-      // Para que al reproducir un audio se pause el que estuviera reproduciéndose y se reanude el siguiente (opcional).
       const audios = document.querySelectorAll('audio');
       let currentAudio = null;
       audios.forEach(audio => {
@@ -443,7 +522,6 @@
           currentAudio = this;
         });
         audio.addEventListener('ended', function() {
-          // (Opcional) Reproduce automáticamente el siguiente audio de la sección activa
           const activeSection = document.querySelector('section.active');
           if (activeSection) {
             const sectionAudios = Array.from(activeSection.querySelectorAll('audio'));
