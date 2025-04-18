@@ -45,6 +45,34 @@ def get_css():
     .container { display: flex; flex-direction: row; min-height: 100vh; }
     @media(max-width: 768px) { .container { flex-direction: column; } }
     
+    /* Estilos para el indicador de carga */
+    .audio-container { position: relative; margin-bottom: 1rem; }
+    .loading-overlay { 
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%; 
+        background: #fff; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        z-index: 2;
+    }
+    .loading-spinner {
+        display: inline-block;
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 0.5rem;
+        border: 3px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        border-top-color: #222;
+        animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
     /* Header mobile */
     header#mobile-header {
          display: none;
@@ -59,38 +87,6 @@ def get_css():
     @media(max-width:768px) {
          header#mobile-header { display: block; }
          nav .nav-logo { display: none; }
-    }
-    
-    /* Indicador de carga */
-    .loading-overlay {
-         position: fixed;
-         top: 0;
-         left: 0;
-         width: 100%;
-         height: 100%;
-         background-color: rgba(0,0,0,0.7);
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         z-index: 1000;
-         flex-direction: column;
-         color: white;
-         transition: opacity 0.3s ease;
-    }
-    .loading-overlay h2 {
-         font-size: 2rem;
-         margin-bottom: 1rem;
-    }
-    .loading-spinner {
-         width: 50px;
-         height: 50px;
-         border: 5px solid rgba(255,255,255,0.3);
-         border-radius: 50%;
-         border-top-color: #fff;
-         animation: spin 1s ease-in-out infinite;
-    }
-    @keyframes spin {
-         to { transform: rotate(360deg); }
     }
     
     /* Navegación */
@@ -185,39 +181,6 @@ def get_css():
 def get_javascript():
     """Retorna el JavaScript completo para la página"""
     return """
-    // Sistema de carga
-    let loadingOverlay;
-    
-    function showLoading() {
-      // Crear overlay de carga si no existe
-      if (!loadingOverlay) {
-        loadingOverlay = document.createElement('div');
-        loadingOverlay.className = 'loading-overlay';
-        
-        const loadingText = document.createElement('h2');
-        loadingText.textContent = 'Cargando música...';
-        
-        const spinner = document.createElement('div');
-        spinner.className = 'loading-spinner';
-        
-        loadingOverlay.appendChild(loadingText);
-        loadingOverlay.appendChild(spinner);
-        document.body.appendChild(loadingOverlay);
-      } else {
-        loadingOverlay.style.display = 'flex';
-        loadingOverlay.style.opacity = '1';
-      }
-    }
-    
-    function hideLoading() {
-      if (loadingOverlay) {
-        loadingOverlay.style.opacity = '0';
-        setTimeout(() => {
-          loadingOverlay.style.display = 'none';
-        }, 300);
-      }
-    }
-    
     function showMenu() {
       document.getElementById('menu').style.display = 'flex';
       document.getElementById('mobile-toggle').style.display = 'none';
@@ -234,9 +197,6 @@ def get_javascript():
     }
     
     function selectCategory(cat) {
-      // Mostrar indicador de carga
-      showLoading();
-      
       const sections = document.querySelectorAll('section');
       const buttons = document.querySelectorAll('nav button');
       sections.forEach(sec => sec.classList.remove('active'));
@@ -256,63 +216,9 @@ def get_javascript():
       scrollToContent();
       
       if (window.innerWidth <= 768) { hideMenu(); }
-      
-      // Cargar todos los audios de la sección activa
-      const activeSection = document.querySelector('section.active');
-      if (activeSection) {
-        const audioElements = activeSection.querySelectorAll('audio');
-        
-        // Contador para rastrear la carga de los audios
-        let loadedAudios = 0;
-        const totalAudios = audioElements.length;
-        
-        if (totalAudios === 0) {
-          // Si no hay audios, ocultar la carga inmediatamente
-          hideLoading();
-        } else {
-          // Establecer un tiempo mínimo para mostrar la carga (600ms)
-          setTimeout(() => {
-            // Si todos los audios están cargados después del tiempo mínimo, ocultar la carga
-            if (loadedAudios >= totalAudios) {
-              hideLoading();
-            }
-          }, 600);
-          
-          // Configurar eventos de carga para cada audio
-          audioElements.forEach(audio => {
-            // Verificar si el audio ya está cargado
-            if (audio.readyState >= 3) {
-              loadedAudios++;
-              // Si todos los audios están cargados, ocultar la carga
-              if (loadedAudios >= totalAudios) {
-                hideLoading();
-              }
-            } else {
-              // Configurar eventos para cuando el audio esté listo
-              audio.addEventListener('canplay', function onCanPlay() {
-                loadedAudios++;
-                // Si todos los audios están cargados, ocultar la carga
-                if (loadedAudios >= totalAudios) {
-                  hideLoading();
-                }
-                // Eliminar el evento para evitar múltiples conteos
-                audio.removeEventListener('canplay', onCanPlay);
-              });
-            }
-          });
-          
-          // Tiempo máximo de espera (5 segundos)
-          setTimeout(() => {
-            hideLoading();
-          }, 5000);
-        }
-      }
     }
     
     function init() {
-      // Mostrar indicador de carga al iniciar
-      showLoading();
-      
       const params = new URLSearchParams(window.location.search);
       const cat = params.get('categoria');
       
@@ -329,6 +235,24 @@ def get_javascript():
       let currentAudio = null;
       
       audios.forEach(audio => {
+        // Manejar la carga de audio
+        audio.addEventListener('canplaythrough', function() {
+          // Ocultar el overlay de carga cuando el audio esté listo
+          const loadingOverlay = this.parentNode.querySelector('.loading-overlay');
+          if (loadingOverlay) {
+            loadingOverlay.style.display = 'none';
+          }
+        });
+        
+        // Gestionar errores de carga
+        audio.addEventListener('error', function() {
+          const loadingOverlay = this.parentNode.querySelector('.loading-overlay');
+          if (loadingOverlay) {
+            loadingOverlay.innerHTML = '<span style="color: #ff0000;">Error al cargar el audio</span>';
+          }
+        });
+        
+        // Gestionar reproducción única
         audio.addEventListener('play', function() {
           if (currentAudio && currentAudio !== this) {
             currentAudio.pause();
@@ -337,6 +261,7 @@ def get_javascript():
           currentAudio = this;
         });
         
+        // Gestionar reproducción automática del siguiente
         audio.addEventListener('ended', function() {
           const activeSection = document.querySelector('section.active');
           if (activeSection) {
@@ -368,7 +293,13 @@ def create_song_html(song_file):
         f"<button class='whatsapp-btn2'>Personalizar esta canción</button>"
         f"</a>"
     )
-    html.append(f"<audio controls src='{song_path}'></audio>")
+    html.append(f"""<div class="audio-container">
+        <div class="loading-overlay">
+            <div class="loading-spinner"></div>
+            <span>Cargando audio...</span>
+        </div>
+        <audio controls src='{song_path}' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
+    </div>""")
     
     return "\n".join(html)
 
