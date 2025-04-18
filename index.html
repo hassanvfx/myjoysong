@@ -5,143 +5,115 @@
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <title>Joy & Song</title>
   <style>
+
     * { box-sizing: border-box; }
     body { font-family: sans-serif; margin: 0; display: flex; flex-direction: column; scroll-behavior: smooth; background: #f8f8f8; }
     .container { display: flex; flex-direction: row; min-height: 100vh; }
     @media(max-width: 768px) { .container { flex-direction: column; } }
     
-    /* Estilos para el indicador de carga */
-    .audio-container { position: relative; margin-bottom: 1rem; }
-    .loading-overlay { 
-        position: absolute; 
-        top: 0; 
-        left: 0; 
-        width: 100%; 
-        height: 100%; 
-        background: #fff; 
-        display: flex; 
-        justify-content: center; 
-        align-items: center; 
-        z-index: 2;
-    }
-    .loading-spinner {
-        display: inline-block;
-        width: 1.5rem;
-        height: 1.5rem;
-        margin-right: 0.5rem;
-        border: 3px solid rgba(0, 0, 0, 0.1);
-        border-radius: 50%;
-        border-top-color: #222;
-        animation: spin 1s ease-in-out infinite;
-    }
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-    
-    /* Header mobile */
+    /* Header mobile: siempre visible en mobile */
     header#mobile-header {
-         display: none;
-         text-align: center;
-         padding: 0.5rem;
-         background: #222;
+        display: none;
+        text-align: center;
+        padding: 0.5rem;
+        background: #222;
     }
     header#mobile-header img {
-         max-width: 100px;
-         height: auto;
+        max-width: 100px;
+        height: auto;
     }
     @media(max-width:768px) {
-         header#mobile-header { display: block; }
-         nav .nav-logo { display: none; }
+        header#mobile-header { display: block; }
+        nav .nav-logo { display: none; }
     }
     
-    /* Navegación */
     nav { background: #222; padding: 1rem; min-width: 220px; display: flex; flex-direction: column; gap: 1rem; }
     
     /* Botón para alternar menú en mobile */
     #mobile-toggle {
-         display: none;
-         width: auto;
-         padding: 0.75rem 1.5rem;
-         font-size: 1.1rem;
-         margin-bottom: 1rem;
-         cursor: pointer;
-         background: #444;
-         color: #fff;
-         border: none;
-         border-radius: 8px;
-         transition: background 0.3s;
+        display: none;
+        width: auto;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        background: #444;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        transition: background 0.3s;
     }
     @media (max-width: 768px) {
-         #mobile-toggle { display: block; margin: 1rem auto; }
-         nav { display: none; flex-direction: column; }
+        #mobile-toggle { display: block; margin: 1rem auto; }
+        nav { display: none; flex-direction: column; }
     }
     
-    /* Social buttons */
+    /* Social buttons con íconos limitados en tamaño */
     .social-buttons { display: flex; justify-content: space-around; gap: 0.5rem; }
     .social-button { font-size: 0.9rem; padding: 0.5rem; text-align: center; text-decoration: none; border-radius: 5px; border: 1px solid transparent; }
     .social-button.youtube { background: #222; border-color: #ff0000; color: #ff0000; }
     .social-button.spotify { background: #222; border-color: #1DB954; color: #1DB954; }
     .social-button img { max-width: 30px; max-height: 30px; vertical-align: middle; }
     
-    /* Botones de navegación */
+    /* Botones de género y opciones */
     nav button { font-size: 1.1rem; padding: 0.75rem 1rem; border: none; cursor: pointer; border-radius: 8px; background: #444; color: #fff; text-align: left; transition: background 0.3s; }
     nav button:hover { background: #555; }
     nav button.active { background: #000; color: #fff; font-weight: bold; }
-    
-    /* Contenido principal */
     main { flex: 1; padding: 2rem; background: #fff; }
     
-    /* Banner */
+    /* Estilos para el cintillo/banner */
     .banner {
-         background: #222;
-         color: #fff;
-         padding: 1rem;
-         text-align: center;
-         font-size: 1.5rem;
-         font-weight: bold;
-         margin-bottom: 1rem;
+        background: #222;
+        color: #fff;
+        padding: 1rem;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
     }
     
-    /* Secciones */
     section { display: none; }
     section.active { display: block; }
     audio { width: 100%; max-width: 500px; margin-bottom: 1rem; display: block; }
     
-    /* Botones WhatsApp */
+    /* WhatsApp button styling */
     .whatsapp-btn {
-         background: #1B8E34 !important;
-         color: white !important;
-         font-size: 1.1rem;
-         padding: 0.75rem 1rem;
-         border: none;
-         border-radius: 8px;
-         cursor: pointer;
-         text-align: center;
-         width: 100%;
-         transition: background 0.3s;
+        background: #1B8E34 !important;
+        color: white !important;
+        font-size: 1.1rem;
+        padding: 0.75rem 1rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-align: center;
+        width: 100%;
+        transition: background 0.3s;
     }
     .whatsapp-btn:hover {
-         background: #15712A !important;
-    }
-    .whatsapp-btn2 {
-         background: #1B8E34 !important;
-         color: white !important;
-         font-size: 1.1rem;
-         padding: 0.75rem 1rem;
-         border: none;
-         border-radius: 8px;
-         cursor: pointer;
-         text-align: center;
-         width: auto;
-         transition: background 0.3s;
-    }
-    .whatsapp-btn2:hover {
-         background: #15712A !important;
+        background: #15712A !important;
     }
     
-    /* Logo */
+    /* WhatsApp button styling2 */
+    .whatsapp-btn2 {
+        background: #1B8E34 !important;
+        color: white !important;
+        font-size: 1.1rem;
+        padding: 0.75rem 1rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-align: center;
+        width: auto;
+        transition: background 0.3s;
+        margin-bottom: 0.5rem;
+    }
+    .whatsapp-btn2:hover {
+        background: #15712A !important;
+    }
+    
     .nav-logo { max-width: 200px; height: auto; }
-    </style>
+    
+  </style>
 </head>
 <body>
   <header id='mobile-header'>
@@ -181,1425 +153,514 @@
 <h2>00 Album Para Siempre</h2>
 <p>Para Siempre</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Para%20Siempre' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/00_album_para_siempre/para_siempre.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/00_album_para_siempre/para_siempre.mp3'></audio>
 <p>Para Siempre Pop</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Para%20Siempre%20Pop' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/00_album_para_siempre/para_siempre_pop.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/00_album_para_siempre/para_siempre_pop.mp3'></audio>
 <p>Para Siempre Tumbado</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Para%20Siempre%20Tumbado' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/00_album_para_siempre/para_siempre_tumbado.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/00_album_para_siempre/para_siempre_tumbado.mp3'></audio>
 <p>Para Siepre Banda</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Para%20Siepre%20Banda' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/00_album_para_siempre/para_siepre_banda.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/00_album_para_siempre/para_siepre_banda.mp3'></audio>
 </section>
 <section id='section-01_balada_romantica'>
 <h2>01 Balada Romantica</h2>
 <p>Balada</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Balada' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/01_balada_romantica/balada.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/01_balada_romantica/balada.mp3'></audio>
 <p>Balada Guitarra</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Balada%20Guitarra' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/01_balada_romantica/balada_guitarra.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/01_balada_romantica/balada_guitarra.mp3'></audio>
 <p>Balada Mariachi</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Balada%20Mariachi' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/01_balada_romantica/balada_mariachi.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/01_balada_romantica/balada_mariachi.mp3'></audio>
 <p>Balda Pop</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Balda%20Pop' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/01_balada_romantica/balda_pop.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/01_balada_romantica/balda_pop.mp3'></audio>
 <p>Hoy Supe De Ti</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Hoy%20Supe%20De%20Ti' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/01_balada_romantica/hoy_supe_de_ti.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/01_balada_romantica/hoy_supe_de_ti.mp3'></audio>
 <p>Nos Vimos Entre Pasillos,   (1)</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Nos%20Vimos%20Entre%20Pasillos%2C%20%20%20%281%29' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/01_balada_romantica/nos_vimos_entre_pasillos,___(1).mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/01_balada_romantica/nos_vimos_entre_pasillos,___(1).mp3'></audio>
 </section>
 <section id='section-80s_y_90s'>
 <h2>80S Y 90S</h2>
 <p>Cover Arjona</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Arjona' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_arjona.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_arjona.mp3'></audio>
 <p>Cover Camilo Sesto</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Camilo%20Sesto' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_camilo_sesto.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_camilo_sesto.mp3'></audio>
 <p>Cover Christian Castro</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Christian%20Castro' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_christian_castro.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_christian_castro.mp3'></audio>
 <p>Cover Depeche Mode</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Depeche%20Mode' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_depeche_mode.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_depeche_mode.mp3'></audio>
 <p>Cover Jenny Rivera</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Jenny%20Rivera' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_jenny_rivera.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_jenny_rivera.mp3'></audio>
 <p>Cover Leo Dan</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Leo%20Dan' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_leo_dan.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_leo_dan.mp3'></audio>
 <p>Cover Mariposa</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Mariposa' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_mariposa.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_mariposa.mp3'></audio>
 <p>Cover Thalia</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Thalia' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_thalia.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_thalia.mp3'></audio>
 </section>
 <section id='section-canta_autor'>
 <h2>Canta Autor</h2>
 <h3>Canta Autor Grupero</h3>
 <p>Acapella Cliente</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Acapella%20Cliente' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/canta_autor/canta_autor_grupero/acapella_cliente.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/canta_autor/canta_autor_grupero/acapella_cliente.mp3'></audio>
 <p>Mix Grupero</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Mix%20Grupero' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/canta_autor/canta_autor_grupero/mix_grupero.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/canta_autor/canta_autor_grupero/mix_grupero.mp3'></audio>
 <h3>Canta Autor Norteno Romantico</h3>
 <p>Mix Noteno Romantico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Mix%20Noteno%20Romantico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/canta_autor/canta_autor_norteno_romantico/mix_noteno_romantico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/canta_autor/canta_autor_norteno_romantico/mix_noteno_romantico.mp3'></audio>
 <h3>Canta Autor Rock Pop Balada Romantica</h3>
 <p>Acapella Cliente</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Acapella%20Cliente' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/canta_autor/canta_autor_rock_pop_balada_romantica/acapella_cliente.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/canta_autor/canta_autor_rock_pop_balada_romantica/acapella_cliente.mp3'></audio>
 <p>Mix Balada Romantica</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Mix%20Balada%20Romantica' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/canta_autor/canta_autor_rock_pop_balada_romantica/mix_balada_romantica.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/canta_autor/canta_autor_rock_pop_balada_romantica/mix_balada_romantica.mp3'></audio>
 <p>Mix Rock Pop</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Mix%20Rock%20Pop' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/canta_autor/canta_autor_rock_pop_balada_romantica/mix_rock_pop.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/canta_autor/canta_autor_rock_pop_balada_romantica/mix_rock_pop.mp3'></audio>
 </section>
 <section id='section-corridos_norteno_banda'>
 <h2>Corridos Norteno Banda</h2>
 <p>Banda Epico Franchesco</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Banda%20Epico%20Franchesco' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/banda_epico_franchesco.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/banda_epico_franchesco.mp3'></audio>
 <p>Banda Gallo Enjaulado</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Banda%20Gallo%20Enjaulado' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/banda_gallo_enjaulado.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/banda_gallo_enjaulado.mp3'></audio>
 <p>Banda Romantico Otra Botella</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Banda%20Romantico%20Otra%20Botella' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/banda_romantico_otra_botella.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/banda_romantico_otra_botella.mp3'></audio>
 <p>Norteno Belico El 27</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Norteno%20Belico%20El%2027' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/norteno_belico_el_27.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/norteno_belico_el_27.mp3'></audio>
 <p>Norteno Romantico Mi Chiquita</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Norteno%20Romantico%20Mi%20Chiquita' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/norteno_romantico_mi_chiquita.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/norteno_romantico_mi_chiquita.mp3'></audio>
 <p>Norteo Clasico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Norteo%20Clasico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/norteo_clasico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/norteo_clasico.mp3'></audio>
 <p>Noteno Corrido</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Noteno%20Corrido' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/noteno_corrido.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/noteno_corrido.mp3'></audio>
 <p>Noteno Tumbado El Tizoc</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Noteno%20Tumbado%20El%20Tizoc' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/noteno_tumbado_el_tizoc.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/noteno_tumbado_el_tizoc.mp3'></audio>
 <p>Tumbado Belico El Pantera</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Tumbado%20Belico%20El%20Pantera' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/tumbado_belico_el_pantera.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/tumbado_belico_el_pantera.mp3'></audio>
 <p>Tumbado Belico Linea De Fuego</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Tumbado%20Belico%20Linea%20De%20Fuego' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/tumbado_belico_linea_de_fuego.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/tumbado_belico_linea_de_fuego.mp3'></audio>
 <p>Tumbado Corrido El Flaco Melendez</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Tumbado%20Corrido%20El%20Flaco%20Melendez' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/tumbado_corrido_el_flaco_melendez.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/tumbado_corrido_el_flaco_melendez.mp3'></audio>
 <p>Tumbado Romantico Chicatron Y Amore</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Tumbado%20Romantico%20Chicatron%20Y%20Amore' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/tumbado_romantico_chicatron_y_amore.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/tumbado_romantico_chicatron_y_amore.mp3'></audio>
 <p>Tumbado Romantico Mi Flaca</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Tumbado%20Romantico%20Mi%20Flaca' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/tumbado_romantico_mi_flaca.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/tumbado_romantico_mi_flaca.mp3'></audio>
 </section>
 <section id='section-mariachi'>
 <h2>Mariachi</h2>
 <p>Alejandro Fernandez Cover)</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alejandro%20Fernandez%20Cover%29' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/mariachi/alejandro_fernandez_cover).mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/mariachi/alejandro_fernandez_cover).mp3'></audio>
 <p>Caro Mariachi Xv (1)</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Caro%20Mariachi%20Xv%20%281%29' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/mariachi/caro_mariachi_xv_(1).mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/mariachi/caro_mariachi_xv_(1).mp3'></audio>
 <p>Meredit Mariachi</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Meredit%20Mariachi' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/mariachi/meredit_mariachi.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/mariachi/meredit_mariachi.mp3'></audio>
 <p>No Volvere Inspired</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20No%20Volvere%20Inspired' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/mariachi/no_volvere_inspired.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/mariachi/no_volvere_inspired.mp3'></audio>
 <p>Recordandote</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Recordandote' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/mariachi/recordandote.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/mariachi/recordandote.mp3'></audio>
 <p>Siempre Tu</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Siempre%20Tu' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/mariachi/siempre_tu.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/mariachi/siempre_tu.mp3'></audio>
 </section>
 <section id='section-rap'>
 <h2>Rap</h2>
 <p>Rap Cover Makabelico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Cover%20Makabelico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_cover_makabelico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_cover_makabelico.mp3'></audio>
 <p>Rap Dark Mass Leon-Negro</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Dark%20Mass%20Leon-Negro' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_dark_mass_leon-negro.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_dark_mass_leon-negro.mp3'></audio>
 <p>Rap Del Nini Cover Lefty</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Del%20Nini%20Cover%20Lefty' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_del_nini_cover_lefty.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_del_nini_cover_lefty.mp3'></audio>
 <p>Rap Desde El Primer Llanto</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Desde%20El%20Primer%20Llanto' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_desde_el_primer_llanto.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_desde_el_primer_llanto.mp3'></audio>
 <p>Rap Hiph Hop El Munrra</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Hiph%20Hop%20El%20Munrra' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_hiph_hop_el_munrra.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_hiph_hop_el_munrra.mp3'></audio>
 <p>Rap La Vida Nos Marco</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20La%20Vida%20Nos%20Marco' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_la_vida_nos_marco.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_la_vida_nos_marco.mp3'></audio>
 <p>Rap Mexicano</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Mexicano' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_mexicano.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_mexicano.mp3'></audio>
 <p>Rap Mi Carnal Ammir</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Mi%20Carnal%20Ammir' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_mi_carnal_ammir.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_mi_carnal_ammir.mp3'></audio>
 <p>Rap Mis Hijas</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Mis%20Hijas' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_mis_hijas.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_mis_hijas.mp3'></audio>
 <p>Rap Romantic Vibe</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Romantic%20Vibe' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_romantic_vibe.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_romantic_vibe.mp3'></audio>
 <p>Rap Romantico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Romantico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_romantico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_romantico.mp3'></audio>
 </section>
 <section id='section-romantico_varios'>
 <h2>Romantico Varios</h2>
 <p>Balada Romantico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Balada%20Romantico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/romantico_varios/balada_romantico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/romantico_varios/balada_romantico.mp3'></audio>
 <p>Banda Romantico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Banda%20Romantico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/romantico_varios/banda_romantico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/romantico_varios/banda_romantico.mp3'></audio>
 <p>Pop Romantico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Pop%20Romantico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/romantico_varios/pop_romantico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/romantico_varios/pop_romantico.mp3'></audio>
 <p>Tumbado Romantico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Tumbado%20Romantico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/romantico_varios/tumbado_romantico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/romantico_varios/tumbado_romantico.mp3'></audio>
 </section>
 <section id='section-salsa_y_cumbia'>
 <h2>Salsa Y Cumbia</h2>
 <p>Cumbia</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cumbia' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/salsa_y_cumbia/cumbia.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/salsa_y_cumbia/cumbia.mp3'></audio>
 <p>Salsa</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Salsa' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/salsa_y_cumbia/salsa.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/salsa_y_cumbia/salsa.mp3'></audio>
 <p>Salsa Lenta</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Salsa%20Lenta' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/salsa_y_cumbia/salsa_lenta.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/salsa_y_cumbia/salsa_lenta.mp3'></audio>
 </section>
 <section id='section-xvs'>
 <h2>Xvs</h2>
 <p>Azul Xv Anos —Lady Song</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Azul%20Xv%20Anos%20%E2%80%94Lady%20Song' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/azul_xv_anos_—lady_song.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/azul_xv_anos_—lady_song.mp3'></audio>
 <p>Caro Xv Anos —Mariachi Lady Song</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Caro%20Xv%20Anos%20%E2%80%94Mariachi%20Lady%20Song' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/caro_xv_anos_—mariachi_lady_song.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/caro_xv_anos_—mariachi_lady_song.mp3'></audio>
 <p>Diana Laura Xv K-Pop Kpop</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Diana%20Laura%20Xv%20K-Pop%20Kpop' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/diana_laura_xv_k-pop_kpop.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/diana_laura_xv_k-pop_kpop.mp3'></audio>
 <p>Meredith Xv —Leo Sol</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Meredith%20Xv%20%E2%80%94Leo%20Sol' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/meredith_xv_—leo_sol.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/meredith_xv_—leo_sol.mp3'></audio>
 <p>Mis Xv Anos Pop —Lady Song</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Mis%20Xv%20Anos%20Pop%20%E2%80%94Lady%20Song' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/mis_xv_anos_pop_—lady_song.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/mis_xv_anos_pop_—lady_song.mp3'></audio>
 <p>Mis Xv Inolvidables —Mr Joy</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Mis%20Xv%20Inolvidables%20%E2%80%94Mr%20Joy' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/mis_xv_inolvidables_—mr_joy.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/mis_xv_inolvidables_—mr_joy.mp3'></audio>
 <p>Vals De Xv Anos —Leo Sol</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Vals%20De%20Xv%20Anos%20%E2%80%94Leo%20Sol' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/vals_de_xv_anos_—leo_sol.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/vals_de_xv_anos_—leo_sol.mp3'></audio>
 <p>Xv Anos Con Reggaeton —Ana Knda (Promo)</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Xv%20Anos%20Con%20Reggaeton%20%E2%80%94Ana%20Knda%20%28Promo%29' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/xv_anos_con_reggaeton_—ana_knda_(promo).mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/xv_anos_con_reggaeton_—ana_knda_(promo).mp3'></audio>
 </section>
 <section id='section-zz_alabanzas'>
 <h2>Zz Alabanzas</h2>
 <p>Alababza-Pop</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alababza-Pop' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alababza-pop.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alababza-pop.mp3'></audio>
 <p>Alabanza-80S</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alabanza-80S' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alabanza-80s.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alabanza-80s.mp3'></audio>
 <p>Alabanza-Banda</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alabanza-Banda' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alabanza-banda.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alabanza-banda.mp3'></audio>
 <p>Alabanza-Coros</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alabanza-Coros' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alabanza-coros.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alabanza-coros.mp3'></audio>
 <p>Alabanza-Pop 2</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alabanza-Pop%202' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alabanza-pop_2.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alabanza-pop_2.mp3'></audio>
 <p>Alabanza-Tumbado</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alabanza-Tumbado' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alabanza-tumbado.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alabanza-tumbado.mp3'></audio>
 <p>Alabanza Guitarra</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alabanza%20Guitarra' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alabanza_guitarra.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alabanza_guitarra.mp3'></audio>
 </section>
 <section id='section-all'>
 <h2>TODOS LOS HITS</h2>
 <h3>00 Album Para Siempre</h3>
 <p>Para Siempre</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Para%20Siempre' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/00_album_para_siempre/para_siempre.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/00_album_para_siempre/para_siempre.mp3'></audio>
 <p>Para Siempre Pop</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Para%20Siempre%20Pop' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/00_album_para_siempre/para_siempre_pop.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/00_album_para_siempre/para_siempre_pop.mp3'></audio>
 <p>Para Siempre Tumbado</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Para%20Siempre%20Tumbado' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/00_album_para_siempre/para_siempre_tumbado.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/00_album_para_siempre/para_siempre_tumbado.mp3'></audio>
 <p>Para Siepre Banda</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Para%20Siepre%20Banda' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/00_album_para_siempre/para_siepre_banda.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/00_album_para_siempre/para_siepre_banda.mp3'></audio>
 <h3>01 Balada Romantica</h3>
 <p>Balada</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Balada' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/01_balada_romantica/balada.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/01_balada_romantica/balada.mp3'></audio>
 <p>Balada Guitarra</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Balada%20Guitarra' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/01_balada_romantica/balada_guitarra.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/01_balada_romantica/balada_guitarra.mp3'></audio>
 <p>Balada Mariachi</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Balada%20Mariachi' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/01_balada_romantica/balada_mariachi.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/01_balada_romantica/balada_mariachi.mp3'></audio>
 <p>Balda Pop</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Balda%20Pop' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/01_balada_romantica/balda_pop.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/01_balada_romantica/balda_pop.mp3'></audio>
 <p>Hoy Supe De Ti</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Hoy%20Supe%20De%20Ti' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/01_balada_romantica/hoy_supe_de_ti.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/01_balada_romantica/hoy_supe_de_ti.mp3'></audio>
 <p>Nos Vimos Entre Pasillos,   (1)</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Nos%20Vimos%20Entre%20Pasillos%2C%20%20%20%281%29' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/01_balada_romantica/nos_vimos_entre_pasillos,___(1).mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/01_balada_romantica/nos_vimos_entre_pasillos,___(1).mp3'></audio>
 <h3>80S Y 90S</h3>
 <p>Cover Arjona</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Arjona' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_arjona.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_arjona.mp3'></audio>
 <p>Cover Camilo Sesto</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Camilo%20Sesto' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_camilo_sesto.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_camilo_sesto.mp3'></audio>
 <p>Cover Christian Castro</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Christian%20Castro' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_christian_castro.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_christian_castro.mp3'></audio>
 <p>Cover Depeche Mode</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Depeche%20Mode' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_depeche_mode.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_depeche_mode.mp3'></audio>
 <p>Cover Jenny Rivera</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Jenny%20Rivera' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_jenny_rivera.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_jenny_rivera.mp3'></audio>
 <p>Cover Leo Dan</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Leo%20Dan' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_leo_dan.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_leo_dan.mp3'></audio>
 <p>Cover Mariposa</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Mariposa' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_mariposa.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_mariposa.mp3'></audio>
 <p>Cover Thalia</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cover%20Thalia' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/80s_y_90s/cover_thalia.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/80s_y_90s/cover_thalia.mp3'></audio>
 <h3>Canta Autor - Canta Autor Grupero</h3>
 <p>Acapella Cliente</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Acapella%20Cliente' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/canta_autor/canta_autor_grupero/acapella_cliente.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/canta_autor/canta_autor_grupero/acapella_cliente.mp3'></audio>
 <p>Mix Grupero</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Mix%20Grupero' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/canta_autor/canta_autor_grupero/mix_grupero.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/canta_autor/canta_autor_grupero/mix_grupero.mp3'></audio>
 <h3>Canta Autor - Canta Autor Norteno Romantico</h3>
 <p>Mix Noteno Romantico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Mix%20Noteno%20Romantico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/canta_autor/canta_autor_norteno_romantico/mix_noteno_romantico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/canta_autor/canta_autor_norteno_romantico/mix_noteno_romantico.mp3'></audio>
 <h3>Canta Autor - Canta Autor Rock Pop Balada Romantica</h3>
 <p>Acapella Cliente</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Acapella%20Cliente' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/canta_autor/canta_autor_rock_pop_balada_romantica/acapella_cliente.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/canta_autor/canta_autor_rock_pop_balada_romantica/acapella_cliente.mp3'></audio>
 <p>Mix Balada Romantica</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Mix%20Balada%20Romantica' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/canta_autor/canta_autor_rock_pop_balada_romantica/mix_balada_romantica.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/canta_autor/canta_autor_rock_pop_balada_romantica/mix_balada_romantica.mp3'></audio>
 <p>Mix Rock Pop</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Mix%20Rock%20Pop' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/canta_autor/canta_autor_rock_pop_balada_romantica/mix_rock_pop.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/canta_autor/canta_autor_rock_pop_balada_romantica/mix_rock_pop.mp3'></audio>
 <h3>Corridos Norteno Banda</h3>
 <p>Banda Epico Franchesco</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Banda%20Epico%20Franchesco' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/banda_epico_franchesco.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/banda_epico_franchesco.mp3'></audio>
 <p>Banda Gallo Enjaulado</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Banda%20Gallo%20Enjaulado' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/banda_gallo_enjaulado.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/banda_gallo_enjaulado.mp3'></audio>
 <p>Banda Romantico Otra Botella</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Banda%20Romantico%20Otra%20Botella' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/banda_romantico_otra_botella.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/banda_romantico_otra_botella.mp3'></audio>
 <p>Norteno Belico El 27</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Norteno%20Belico%20El%2027' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/norteno_belico_el_27.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/norteno_belico_el_27.mp3'></audio>
 <p>Norteno Romantico Mi Chiquita</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Norteno%20Romantico%20Mi%20Chiquita' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/norteno_romantico_mi_chiquita.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/norteno_romantico_mi_chiquita.mp3'></audio>
 <p>Norteo Clasico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Norteo%20Clasico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/norteo_clasico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/norteo_clasico.mp3'></audio>
 <p>Noteno Corrido</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Noteno%20Corrido' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/noteno_corrido.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/noteno_corrido.mp3'></audio>
 <p>Noteno Tumbado El Tizoc</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Noteno%20Tumbado%20El%20Tizoc' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/noteno_tumbado_el_tizoc.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/noteno_tumbado_el_tizoc.mp3'></audio>
 <p>Tumbado Belico El Pantera</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Tumbado%20Belico%20El%20Pantera' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/tumbado_belico_el_pantera.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/tumbado_belico_el_pantera.mp3'></audio>
 <p>Tumbado Belico Linea De Fuego</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Tumbado%20Belico%20Linea%20De%20Fuego' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/tumbado_belico_linea_de_fuego.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/tumbado_belico_linea_de_fuego.mp3'></audio>
 <p>Tumbado Corrido El Flaco Melendez</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Tumbado%20Corrido%20El%20Flaco%20Melendez' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/tumbado_corrido_el_flaco_melendez.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/tumbado_corrido_el_flaco_melendez.mp3'></audio>
 <p>Tumbado Romantico Chicatron Y Amore</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Tumbado%20Romantico%20Chicatron%20Y%20Amore' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/tumbado_romantico_chicatron_y_amore.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/tumbado_romantico_chicatron_y_amore.mp3'></audio>
 <p>Tumbado Romantico Mi Flaca</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Tumbado%20Romantico%20Mi%20Flaca' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/corridos_norteno_banda/tumbado_romantico_mi_flaca.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/corridos_norteno_banda/tumbado_romantico_mi_flaca.mp3'></audio>
 <h3>Mariachi</h3>
 <p>Alejandro Fernandez Cover)</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alejandro%20Fernandez%20Cover%29' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/mariachi/alejandro_fernandez_cover).mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/mariachi/alejandro_fernandez_cover).mp3'></audio>
 <p>Caro Mariachi Xv (1)</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Caro%20Mariachi%20Xv%20%281%29' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/mariachi/caro_mariachi_xv_(1).mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/mariachi/caro_mariachi_xv_(1).mp3'></audio>
 <p>Meredit Mariachi</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Meredit%20Mariachi' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/mariachi/meredit_mariachi.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/mariachi/meredit_mariachi.mp3'></audio>
 <p>No Volvere Inspired</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20No%20Volvere%20Inspired' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/mariachi/no_volvere_inspired.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/mariachi/no_volvere_inspired.mp3'></audio>
 <p>Recordandote</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Recordandote' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/mariachi/recordandote.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/mariachi/recordandote.mp3'></audio>
 <p>Siempre Tu</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Siempre%20Tu' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/mariachi/siempre_tu.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/mariachi/siempre_tu.mp3'></audio>
 <h3>Rap</h3>
 <p>Rap Cover Makabelico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Cover%20Makabelico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_cover_makabelico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_cover_makabelico.mp3'></audio>
 <p>Rap Dark Mass Leon-Negro</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Dark%20Mass%20Leon-Negro' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_dark_mass_leon-negro.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_dark_mass_leon-negro.mp3'></audio>
 <p>Rap Del Nini Cover Lefty</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Del%20Nini%20Cover%20Lefty' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_del_nini_cover_lefty.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_del_nini_cover_lefty.mp3'></audio>
 <p>Rap Desde El Primer Llanto</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Desde%20El%20Primer%20Llanto' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_desde_el_primer_llanto.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_desde_el_primer_llanto.mp3'></audio>
 <p>Rap Hiph Hop El Munrra</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Hiph%20Hop%20El%20Munrra' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_hiph_hop_el_munrra.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_hiph_hop_el_munrra.mp3'></audio>
 <p>Rap La Vida Nos Marco</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20La%20Vida%20Nos%20Marco' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_la_vida_nos_marco.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_la_vida_nos_marco.mp3'></audio>
 <p>Rap Mexicano</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Mexicano' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_mexicano.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_mexicano.mp3'></audio>
 <p>Rap Mi Carnal Ammir</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Mi%20Carnal%20Ammir' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_mi_carnal_ammir.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_mi_carnal_ammir.mp3'></audio>
 <p>Rap Mis Hijas</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Mis%20Hijas' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_mis_hijas.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_mis_hijas.mp3'></audio>
 <p>Rap Romantic Vibe</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Romantic%20Vibe' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_romantic_vibe.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_romantic_vibe.mp3'></audio>
 <p>Rap Romantico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Rap%20Romantico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/rap/rap_romantico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/rap/rap_romantico.mp3'></audio>
 <h3>Romantico Varios</h3>
 <p>Balada Romantico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Balada%20Romantico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/romantico_varios/balada_romantico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/romantico_varios/balada_romantico.mp3'></audio>
 <p>Banda Romantico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Banda%20Romantico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/romantico_varios/banda_romantico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/romantico_varios/banda_romantico.mp3'></audio>
 <p>Pop Romantico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Pop%20Romantico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/romantico_varios/pop_romantico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/romantico_varios/pop_romantico.mp3'></audio>
 <p>Tumbado Romantico</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Tumbado%20Romantico' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/romantico_varios/tumbado_romantico.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/romantico_varios/tumbado_romantico.mp3'></audio>
 <h3>Salsa Y Cumbia</h3>
 <p>Cumbia</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Cumbia' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/salsa_y_cumbia/cumbia.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/salsa_y_cumbia/cumbia.mp3'></audio>
 <p>Salsa</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Salsa' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/salsa_y_cumbia/salsa.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/salsa_y_cumbia/salsa.mp3'></audio>
 <p>Salsa Lenta</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Salsa%20Lenta' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/salsa_y_cumbia/salsa_lenta.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/salsa_y_cumbia/salsa_lenta.mp3'></audio>
 <h3>Xvs</h3>
 <p>Azul Xv Anos —Lady Song</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Azul%20Xv%20Anos%20%E2%80%94Lady%20Song' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/azul_xv_anos_—lady_song.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/azul_xv_anos_—lady_song.mp3'></audio>
 <p>Caro Xv Anos —Mariachi Lady Song</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Caro%20Xv%20Anos%20%E2%80%94Mariachi%20Lady%20Song' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/caro_xv_anos_—mariachi_lady_song.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/caro_xv_anos_—mariachi_lady_song.mp3'></audio>
 <p>Diana Laura Xv K-Pop Kpop</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Diana%20Laura%20Xv%20K-Pop%20Kpop' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/diana_laura_xv_k-pop_kpop.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/diana_laura_xv_k-pop_kpop.mp3'></audio>
 <p>Meredith Xv —Leo Sol</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Meredith%20Xv%20%E2%80%94Leo%20Sol' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/meredith_xv_—leo_sol.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/meredith_xv_—leo_sol.mp3'></audio>
 <p>Mis Xv Anos Pop —Lady Song</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Mis%20Xv%20Anos%20Pop%20%E2%80%94Lady%20Song' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/mis_xv_anos_pop_—lady_song.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/mis_xv_anos_pop_—lady_song.mp3'></audio>
 <p>Mis Xv Inolvidables —Mr Joy</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Mis%20Xv%20Inolvidables%20%E2%80%94Mr%20Joy' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/mis_xv_inolvidables_—mr_joy.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/mis_xv_inolvidables_—mr_joy.mp3'></audio>
 <p>Vals De Xv Anos —Leo Sol</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Vals%20De%20Xv%20Anos%20%E2%80%94Leo%20Sol' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/vals_de_xv_anos_—leo_sol.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/vals_de_xv_anos_—leo_sol.mp3'></audio>
 <p>Xv Anos Con Reggaeton —Ana Knda (Promo)</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Xv%20Anos%20Con%20Reggaeton%20%E2%80%94Ana%20Knda%20%28Promo%29' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/xvs/xv_anos_con_reggaeton_—ana_knda_(promo).mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/xvs/xv_anos_con_reggaeton_—ana_knda_(promo).mp3'></audio>
 <h3>Zz Alabanzas</h3>
 <p>Alababza-Pop</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alababza-Pop' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alababza-pop.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alababza-pop.mp3'></audio>
 <p>Alabanza-80S</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alabanza-80S' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alabanza-80s.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alabanza-80s.mp3'></audio>
 <p>Alabanza-Banda</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alabanza-Banda' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alabanza-banda.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alabanza-banda.mp3'></audio>
 <p>Alabanza-Coros</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alabanza-Coros' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alabanza-coros.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alabanza-coros.mp3'></audio>
 <p>Alabanza-Pop 2</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alabanza-Pop%202' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alabanza-pop_2.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alabanza-pop_2.mp3'></audio>
 <p>Alabanza-Tumbado</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alabanza-Tumbado' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alabanza-tumbado.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alabanza-tumbado.mp3'></audio>
 <p>Alabanza Guitarra</p>
 <a href='https://wa.me/5215574179877?text=%23quiero%20Alabanza%20Guitarra' target='_blank'><button class='whatsapp-btn2'>Personalizar esta canción</button></a>
-<div class="audio-container">
-        <div class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <span>Cargando audio...</span>
-        </div>
-        <audio controls src='songs/zz_alabanzas/alabanza_guitarra.mp3' oncanplaythrough="this.parentNode.querySelector('.loading-overlay').style.display='none'"></audio>
-    </div>
+<audio controls src='songs/zz_alabanzas/alabanza_guitarra.mp3'></audio>
 </section>
     </main>
   </div>
   <script>
+
     function showMenu() {
       document.getElementById('menu').style.display = 'flex';
       document.getElementById('mobile-toggle').style.display = 'none';
@@ -1620,27 +681,21 @@
       const buttons = document.querySelectorAll('nav button');
       sections.forEach(sec => sec.classList.remove('active'));
       buttons.forEach(btn => btn.classList.remove('active'));
-      
       const target = document.getElementById('section-' + cat);
       const btn = document.getElementById('btn-' + cat);
-      
       if (target) target.classList.add('active');
       if (btn) btn.classList.add('active');
-      
       const url = new URL(window.location);
       url.searchParams.set('categoria', cat);
       history.pushState({}, '', url);
-      
       document.title = 'Joy & Song – ' + (btn ? btn.innerText : '');
       scrollToContent();
-      
       if (window.innerWidth <= 768) { hideMenu(); }
     }
     
     function init() {
       const params = new URLSearchParams(window.location.search);
       const cat = params.get('categoria');
-      
       if (cat && document.getElementById('section-' + cat)) {
         selectCategory(cat);
       } else if (document.querySelector('section')) {
@@ -1649,29 +704,11 @@
       }
     }
     
-    function setupAudioHandlers() {
+    window.onload = function() {
+      init();
       const audios = document.querySelectorAll('audio');
       let currentAudio = null;
-      
       audios.forEach(audio => {
-        // Manejar la carga de audio
-        audio.addEventListener('canplaythrough', function() {
-          // Ocultar el overlay de carga cuando el audio esté listo
-          const loadingOverlay = this.parentNode.querySelector('.loading-overlay');
-          if (loadingOverlay) {
-            loadingOverlay.style.display = 'none';
-          }
-        });
-        
-        // Gestionar errores de carga
-        audio.addEventListener('error', function() {
-          const loadingOverlay = this.parentNode.querySelector('.loading-overlay');
-          if (loadingOverlay) {
-            loadingOverlay.innerHTML = '<span style="color: #ff0000;">Error al cargar el audio</span>';
-          }
-        });
-        
-        // Gestionar reproducción única
         audio.addEventListener('play', function() {
           if (currentAudio && currentAudio !== this) {
             currentAudio.pause();
@@ -1679,8 +716,6 @@
           }
           currentAudio = this;
         });
-        
-        // Gestionar reproducción automática del siguiente
         audio.addEventListener('ended', function() {
           const activeSection = document.querySelector('section.active');
           if (activeSection) {
@@ -1692,12 +727,8 @@
           }
         });
       });
-    }
-    
-    window.onload = function() {
-      init();
-      setupAudioHandlers();
     };
-    </script>
+    
+  </script>
 </body>
 </html>
