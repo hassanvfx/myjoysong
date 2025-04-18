@@ -201,7 +201,7 @@ for genre in genres:
                 song_path = song_file.as_posix()
                 html_parts.append(f"        <p>{song_name}</p>")
                 html_parts.append(
-                    "        <a href='https://wa.me/5215574179877?text="
+                    "        <a href='https://wa.me/5215574179877?text=#quiero%20"
                     + quote(song_name)
                     + "' target='_blank'>"
                     + "<button class='whatsapp-btn2'>Personalizar esta canción</button>"
@@ -215,7 +215,7 @@ for genre in genres:
             song_path = song_file.as_posix()
             html_parts.append(f"        <p>{song_name}</p>")
             html_parts.append(
-                "        <a href='https://wa.me/5215574179877?text="
+                "        <a href='https://wa.me/5215574179877?text=#quiero%20"
                 + quote(song_name)
                 + "' target='_blank'>"
                 + "<button class='whatsapp-btn2'>Personalizar esta canción</button>"
@@ -237,7 +237,7 @@ for genre in genres:
             song_path = song_file.as_posix()
             html_parts.append(f"        <p>{song_name}</p>")
             html_parts.append(
-                "        <a href='https://wa.me/5215574179877?text="
+                "        <a href='https://wa.me/5215574179877?text=#quiero%20"
                 + quote(song_name)
                 + "' target='_blank'>"
                 + "<button class='whatsapp-btn2'>Personalizar esta canción</button>"
@@ -253,7 +253,7 @@ for genre in genres:
             song_path = song_file.as_posix()
             html_parts.append(f"        <p>{song_name}</p>")
             html_parts.append(
-                "        <a href='https://wa.me/5215574179877?text="
+                "        <a href='https://wa.me/5215574179877?text=#quiero%20"
                 + quote(song_name)
                 + "' target='_blank'>"
                 + "<button class='whatsapp-btn2'>Personalizar esta canción</button>"
