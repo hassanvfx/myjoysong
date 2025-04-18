@@ -5,7 +5,7 @@ from urllib.parse import quote
 
 BASE_DIR = Path("songs")
 OUTPUT_HTML = "index.html"
-
+#ready
 def normalize_name(name):
     """Normaliza nombres de archivos y carpetas"""
     nfkd = unicodedata.normalize("NFKD", name)
